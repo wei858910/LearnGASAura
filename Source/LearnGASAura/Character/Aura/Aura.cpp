@@ -13,7 +13,12 @@ AAura::AAura()
     {
         GetMesh()->SetSkeletalMesh(AuraMeshPtr);
     }
-    
+    const ConstructorHelpers::FClassFinder<UAnimInstance> AnimClass(TEXT("/Game/Bluepint/Character/Aura/ABP_Aura.ABP_Aura_C"));
+    if (IsValid(AnimClass.Class))
+    {
+        GetMesh()->SetAnimInstanceClass(AnimClass.Class);
+    }
+
     const ConstructorHelpers::FObjectFinder<USkeletalMesh> WeaponMesh(TEXT("/Game/Assets/Characters/Aura/Staff/SKM_Staff.SKM_Staff"));
     if (USkeletalMesh* WeaponMeshMeshPtr = WeaponMesh.Object; IsValid(WeaponMeshMeshPtr))
     {
