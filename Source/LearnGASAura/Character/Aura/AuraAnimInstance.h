@@ -25,4 +25,7 @@ private:
 
     UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     float GroundSpeed{};
+
+    UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    bool bShouldMove {};
 };

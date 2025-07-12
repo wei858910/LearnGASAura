@@ -22,5 +22,13 @@ void UAuraAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
         FVector VelocityVector = Owner->GetMovementComponent()->Velocity;
         VelocityVector.Z = 0.0f;
         GroundSpeed = VelocityVector.Size();
+        if(GroundSpeed > 3.0f)
+        {
+            bShouldMove = true;
+        }
+        else
+        {
+            bShouldMove = false;
+        }
     }
 }
