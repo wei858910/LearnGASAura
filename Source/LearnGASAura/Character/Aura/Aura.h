@@ -6,6 +6,9 @@
 #include "LearnGASAura/Character/AuraCharacterBase.h"
 #include "Aura.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
 class LEARNGASAURA_API AAura : public AAuraCharacterBase
 {
@@ -16,4 +19,10 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+
+    UPROPERTY(EditAnywhere, Category = "Aura")
+    TObjectPtr<USpringArmComponent> SpringArm;
+
+    UPROPERTY(EditAnywhere, Category = "Aura")
+    TObjectPtr<UCameraComponent> Camera;
 };
