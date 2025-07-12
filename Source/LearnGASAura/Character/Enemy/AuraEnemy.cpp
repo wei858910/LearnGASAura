@@ -4,7 +4,7 @@
 
 AAuraEnemy::AAuraEnemy()
 {
-    PrimaryActorTick.bCanEverTick = false;    
+    PrimaryActorTick.bCanEverTick = false;
 }
 
 void AAuraEnemy::BeginPlay()
@@ -13,6 +13,12 @@ void AAuraEnemy::BeginPlay()
 
 }
 
-void AAuraEnemy::HighlightActor() {}
+void AAuraEnemy::HighlightActor()
+{
+    bHighlighted = true;
+}
 
-void AAuraEnemy::UnHighlightActor() {}
+void AAuraEnemy::UnHighlightActor()
+{
+    bHighlighted = false;
+}

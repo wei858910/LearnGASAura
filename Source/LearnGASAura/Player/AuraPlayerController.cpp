@@ -5,10 +5,18 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "LearnGASAura/Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
     bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+    Super::PlayerTick(DeltaTime);
+
+    CursorTrace();
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -43,7 +51,7 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
     const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
     // 根据仅包含偏航角的旋转对象创建旋转矩阵，并获取其 Y 轴方向作为向右的单位向量
     const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-    
+
     // 尝试获取当前控制器所控制的 Pawn 对象
     if (APawn* ControlledPawn = GetPawn<APawn>())
     {
@@ -54,13 +62,47 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
     }
 }
 
+void AAuraPlayerController::CursorTrace()
+{
+    FHitResult CursorHit{};
+    GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+    if (CursorHit.bBlockingHit)
+    {
+        LastActor = ThisActor;
+        ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+        if (LastActor == nullptr)
+        {
+            if (ThisActor != LastActor)
+            {
+                ThisActor->HighlightActor();
+            }
+        }
+        else
+        {
+            if (ThisActor == nullptr)
+            {
+                LastActor->UnHighlightActor();
+            }
+            else
+            {
+                if (ThisActor != LastActor)
+                {
+                    LastActor->UnHighlightActor();
+                    ThisActor->HighlightActor();
+                }
+            }
+        }
+
+    }
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
     {
-        if(IsValid(MoveAction))
+        if (IsValid(MoveAction))
         {
             EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
         }
