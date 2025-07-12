@@ -1,10 +1,13 @@
 ﻿#include "AuraEnemy.h"
 
-#include "Components/CapsuleComponent.h"
+
+constexpr float GCustomDepthRed = 250.f;
 
 AAuraEnemy::AAuraEnemy()
 {
     PrimaryActorTick.bCanEverTick = false;
+    GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+    GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 void AAuraEnemy::BeginPlay()
@@ -15,10 +18,14 @@ void AAuraEnemy::BeginPlay()
 
 void AAuraEnemy::HighlightActor()
 {
-    bHighlighted = true;
+    GetMesh()->SetRenderCustomDepth(true);
+    GetMesh()->SetCustomDepthStencilValue(GCustomDepthRed);
+    Weapon->SetRenderCustomDepth(true);
+    Weapon->SetCustomDepthStencilValue(GCustomDepthRed);
 }
 
 void AAuraEnemy::UnHighlightActor()
 {
-    bHighlighted = false;
+    GetMesh()->SetRenderCustomDepth(false);
+    Weapon->SetRenderCustomDepth(false);
 }
