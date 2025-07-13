@@ -70,29 +70,17 @@ void AAuraPlayerController::CursorTrace()
     {
         LastActor = ThisActor;
         ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
-        if (LastActor == nullptr)
+        if (ThisActor != LastActor)
         {
-            if (ThisActor != LastActor)
+            if (LastActor != nullptr)
+            {
+                LastActor->UnHighlightActor();
+            }
+            if (ThisActor != nullptr)
             {
                 ThisActor->HighlightActor();
             }
         }
-        else
-        {
-            if (ThisActor == nullptr)
-            {
-                LastActor->UnHighlightActor();
-            }
-            else
-            {
-                if (ThisActor != LastActor)
-                {
-                    LastActor->UnHighlightActor();
-                    ThisActor->HighlightActor();
-                }
-            }
-        }
-
     }
 }
 

@@ -1,13 +1,14 @@
 ﻿#include "AuraEnemy.h"
 
+#include "Components/CapsuleComponent.h"
+
 
 constexpr float GCustomDepthRed = 250.f;
 
 AAuraEnemy::AAuraEnemy()
 {
     PrimaryActorTick.bCanEverTick = false;
-    GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
-    GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
 void AAuraEnemy::BeginPlay()
