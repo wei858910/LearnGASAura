@@ -1,8 +1,10 @@
 ﻿#include "Aura.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "LearnGASAura/Player/AuraPlayerState.h"
 
 AAura::AAura()
 {
@@ -28,9 +30,9 @@ AAura::AAura()
     SpringArm->bUsePawnControlRotation = false;
     SpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
     SpringArm->bEnableCameraLag = true; // 启用相机延迟效果，使相机不会立即跟随角色移动，而是有一定的延迟，这样可以营造出更加平滑、自然的相机跟随效果。
-    SpringArm->bInheritPitch = false; // 相机的俯仰角不会跟随角色的俯仰角变化，而是依据相机自身的设置来确定俯仰角度。
-    SpringArm->bInheritRoll = false; // 相机的滚转角不会跟随角色的滚转角变化，而是依据相机自身的设置来确定滚转角度。
-    SpringArm->bInheritYaw = false; // 相机的偏航角不会跟随角色的偏航角变化，而是依据相机自身的设置来确定偏航角度。
+    SpringArm->bInheritPitch = false;   // 相机的俯仰角不会跟随角色的俯仰角变化，而是依据相机自身的设置来确定俯仰角度。
+    SpringArm->bInheritRoll = false;    // 相机的滚转角不会跟随角色的滚转角变化，而是依据相机自身的设置来确定滚转角度。
+    SpringArm->bInheritYaw = false;     // 相机的偏航角不会跟随角色的偏航角变化，而是依据相机自身的设置来确定偏航角度。
 
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
     Camera->SetupAttachment(SpringArm);
@@ -57,7 +59,33 @@ AAura::AAura()
 
 }
 
+void AAura::PossessedBy(AController* NewController)
+{
+    Super::PossessedBy(NewController);
+
+    // Init Ability Actor Info for the Server
+    InitAbilityActorInfo();
+}
+
+void AAura::OnRep_PlayerState()
+{
+    Super::OnRep_PlayerState();
+
+    // Init Ability Actor Info for the Client
+    InitAbilityActorInfo();
+}
+
 void AAura::BeginPlay()
 {
     Super::BeginPlay();
+}
+
+void AAura::InitAbilityActorInfo()
+{
+    if (AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>())
+    {
+        AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+        AttributeSet = AuraPlayerState->GetAttributeSet();
+        AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+    }
 }

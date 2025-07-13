@@ -3,7 +3,6 @@
 #include "Components/CapsuleComponent.h"
 #include "LearnGASAura/AbilitySystem/AuraAbilitySystemComponent.h"
 
-
 constexpr float GCustomDepthRed = 250.f;
 
 AAuraEnemy::AAuraEnemy()
@@ -26,6 +25,7 @@ void AAuraEnemy::BeginPlay()
 {
     Super::BeginPlay();
 
+    AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
 void AAuraEnemy::HighlightActor()

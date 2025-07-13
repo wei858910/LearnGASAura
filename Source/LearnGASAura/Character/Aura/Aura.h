@@ -17,6 +17,13 @@ class LEARNGASAURA_API AAura : public AAuraCharacterBase
 public:
     AAura();
 
+    /** 
+     * 当此角色（Pawn）被占有（控制）时调用。仅在服务器端（或单机模式下）调用。
+     * @param NewController 占有（控制）此角色的控制器
+     */
+    virtual void PossessedBy(AController* NewController) override;
+    virtual void OnRep_PlayerState() override; // 在客户端PlayerState被成功复制后触发
+
 protected:
     virtual void BeginPlay() override;
 
@@ -25,4 +32,7 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Aura")
     TObjectPtr<UCameraComponent> Camera;
+    
+private:
+    void InitAbilityActorInfo();
 };
