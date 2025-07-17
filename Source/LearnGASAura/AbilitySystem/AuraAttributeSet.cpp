@@ -3,10 +3,15 @@
 
 #include "AuraAttributeSet.h"
 
-#include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
-UAuraAttributeSet::UAuraAttributeSet() {}
+UAuraAttributeSet::UAuraAttributeSet()
+{
+    InitHealth(100.f);
+    InitMaxHealth(100.f);
+    InitMana(50.f);
+    InitMaxMana(50.f);
+}
 
 // FLifetimeProperty 类主要用于管理在 Actor 通道生命周期内需要复制的属性，同时支持通过额外条件来控制复制行为，帮助开发者更灵活、高效地处理网络属性复制。
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
