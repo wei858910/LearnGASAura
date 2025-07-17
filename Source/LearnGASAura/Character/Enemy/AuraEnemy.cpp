@@ -2,6 +2,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "LearnGASAura/AbilitySystem/AuraAbilitySystemComponent.h"
+#include "LearnGASAura/AbilitySystem/AuraAttributeSet.h"
 
 constexpr float GCustomDepthRed = 250.f;
 
@@ -18,7 +19,7 @@ AAuraEnemy::AAuraEnemy()
     // 这样能显著减少网络带宽的使用，但可能会使客户端的游戏玩法效果表现与服务器略有延迟或差异。
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
-    AttributeSet = CreateDefaultSubobject<UAttributeSet>(TEXT("AttributeSet"));
+    AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>(TEXT("AttributeSet"));
 }
 
 void AAuraEnemy::BeginPlay()

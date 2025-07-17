@@ -4,6 +4,7 @@
 #include "AuraPlayerState.h"
 
 #include "LearnGASAura/AbilitySystem/AuraAbilitySystemComponent.h"
+#include "LearnGASAura/AbilitySystem/AuraAttributeSet.h"
 
 AAuraPlayerState::AAuraPlayerState()
 {
@@ -20,7 +21,7 @@ AAuraPlayerState::AAuraPlayerState()
     // 有效减少网络带宽的占用。
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
-    AttributeSet = CreateDefaultSubobject<UAttributeSet>(TEXT("AttributeSet"));
+    AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>(TEXT("AttributeSet"));
 }
 
 UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
