@@ -41,7 +41,7 @@ public:
     FSlateBrush ProgressBarFillImage{};
 
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    float GlobePadding{};
+    float GlobePadding{10.0f};
 
     void UpdateBackgroundBrush();
     void SetGlobeImage() const;

@@ -17,14 +17,17 @@ void UGlobeProgressBar::UpdateBackgroundBrush()
 
 void UGlobeProgressBar::SetGlobeImage() const
 {
-    FProgressBarStyle ProgressBarStyle{ProgressBar.Get()->GetWidgetStyle()};
+    UWidgetLayoutLibrary::SlotAsOverlaySlot(GlobeProgressBar.Get())->SetPadding(FMargin(GlobePadding));
+    GlobeProgressBar.Get()->SetFillColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+    
+    FProgressBarStyle ProgressBarStyle{GlobeProgressBar.Get()->GetWidgetStyle()};
     ProgressBarStyle.SetBackgroundImage(ProgressBarBackgroundImage);
     ProgressBarStyle.SetFillImage(ProgressBarFillImage);
     
-    ProgressBar.Get()->SetWidgetStyle(ProgressBarStyle);
-    ProgressBar.Get()->SetPercent(0.5f);
-    ProgressBar.Get()->SetBarFillStyle(EProgressBarFillStyle::Mask);
-    ProgressBar.Get()->SetBarFillType(EProgressBarFillType::BottomToTop);
+    GlobeProgressBar.Get()->SetWidgetStyle(ProgressBarStyle);
+    GlobeProgressBar.Get()->SetPercent(0.5f);
+    GlobeProgressBar.Get()->SetBarFillStyle(EProgressBarFillStyle::Mask);
+    GlobeProgressBar.Get()->SetBarFillType(EProgressBarFillType::BottomToTop);
 }
 
 void UGlobeProgressBar::NativePreConstruct()
@@ -34,7 +37,7 @@ void UGlobeProgressBar::NativePreConstruct()
     UpdateBoxSize();
     UpdateBackgroundBrush();
     SetGlobeImage();
-    UWidgetLayoutLibrary::SlotAsOverlaySlot(ProgressBar.Get())->SetPadding(FMargin(GlobePadding));
+   
 }
 
 void UGlobeProgressBar::UpdateBoxSize() const
